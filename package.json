@@ -1,0 +1,42 @@
+{
+  "name": "dark_sky_weather",
+  "version": "1.0.0",
+  "description": "React express node app for looking at whether the weather is good or bad",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server",
+    "heroku-postbuild": "npm install && cd react-ui/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "client": "cd react-ui/ && npm start",
+    "server": "nodemon server",
+    "dev": "concurrently --kill-others \"npm run server\" \"npm run client\"",
+    "clean": "rm -r node_modules && cd react-ui/ && rm -r node_modules",
+    "build-css": "node-sass-chokidar react-ui/src/sass -o react-ui/src/css",
+    "watch-css": "npm run build-css && node-sass-chokidar react-ui/src/sass -o react-ui/src/css --watch --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ibanatoski/dark_sky_weather.git"
+  },
+  "author": "Ian Banatoski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ibanatoski/dark_sky_weather/issues"
+  },
+  "homepage": "https://github.com/ibanatoski/dark_sky_weather#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "request": "^2.88.0"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "test/*",
+      "docs/*",
+      "react-ui/*"
+    ],
+    "delay": "2500"
+  }
+}
