@@ -14,7 +14,8 @@ function loggingMiddleware(req, res, next) {
   console.log("------------------------------");
   console.log("req.user", req.user);
   console.log("header.authorization: ", req.headers.authorization);
-  console.log("ip:", req.connection.remoteAddress);
+  console.log("ip:", req.headers["x-forwarded-for"]);
+  req.client_ip = req.headers["x-forwarded-for"];
   next();
 }
 
