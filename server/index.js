@@ -15,7 +15,8 @@ function loggingMiddleware(req, res, next) {
   console.log("req.user", req.user);
   console.log("header.authorization: ", req.headers.authorization);
   console.log("ip:", req.headers["x-forwarded-for"]);
-  req.client_ip = req.headers["x-forwarded-for"];
+  req.client_ip =
+    req.headers["x-forwarded-for"] || req.connection.remoteAddress;
   next();
 }
 
@@ -49,7 +50,7 @@ if (cluster.isMaster) {
 
   app.use("/api/forecast/ip", (req, res) => {
     request(
-      `http://api.ipstack.com/${req.connection.remoteAddress}?access_key=${
+      `http://api.ipstack.com/${req.client_ip}?access_key=${
         process.env.IP_STACK_API
       }`,
       function(error, response, body) {
