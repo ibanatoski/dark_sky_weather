@@ -70,7 +70,7 @@ if (cluster.isMaster) {
                 next(error);
               } else {
                 res.json({
-                  ip: req.connection.remoteAddress,
+                  ip: req.client_ip,
                   locationData: body,
                   weatherData: JSON.parse(body)
                 });
