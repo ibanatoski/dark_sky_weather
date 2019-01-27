@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import "css/NavBar.css";
 
-import { fetchWeatherByZipcode } from "actions/weatherData";
+import { fetchWeatherByZipcode, fetchWeatherByIp } from "actions/weatherData";
 
 import { Menu, Icon, Input, Button } from "antd";
 
@@ -26,6 +26,11 @@ class NavBar extends Component {
   handleSearch = zipcode => {
     console.log(zipcode);
     if (zipcode) this.props.fetchWeatherByZipcode(zipcode);
+  };
+
+  handleFindWeatherByIP = () => {
+    console.log("fetching forecast by IP");
+    this.props.fetchWeatherByIp();
   };
 
   handleClick = e => {
@@ -76,7 +81,7 @@ class NavBar extends Component {
                 marginRight: "30px"
               }}
             >
-              <Button>
+              <Button onClick={this.handleFindWeatherByIP}>
                 <Icon type="environment" />
                 Find Me
               </Button>
@@ -111,6 +116,9 @@ export default withRouter(
     dispatch => ({
       fetchWeatherByZipcode: zipcode => {
         return dispatch(fetchWeatherByZipcode(zipcode));
+      },
+      fetchWeatherByIp: () => {
+        return dispatch(fetchWeatherByIp());
       }
     })
   )(NavBar)

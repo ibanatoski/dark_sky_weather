@@ -8,7 +8,7 @@ export function fetchWeatherByZipcode(zipcode) {
   }).then(response => response.json());
 }
 
-export function fetchWeatherByIP() {
+export function fetchWeatherByIp() {
   return fetch(`/api/forecast/ip`, {
     method: "GET",
     headers: {

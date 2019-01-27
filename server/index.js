@@ -66,7 +66,7 @@ if (cluster.isMaster) {
                 next(error);
               } else {
                 res.json({
-                  locationData: res.locationData,
+                  locationData: body,
                   weatherData: JSON.parse(body)
                 });
               }
