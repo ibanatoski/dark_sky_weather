@@ -1,5 +1,50 @@
 /* landing page stuff */
-.test {
-  height: 100px;
-  background-color: blue;
+.section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner {
+  height: 90vh;
+  width: 100%;
+  background-color: #edebff;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.banner-input {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner-image {
+  width: 60%;
+  height: 100%;
+  padding: 1% 10%;
+  display: flex;
+  justify-content: center;
+}
+
+.feature-list-container {
+  padding: 1.5rem;
+  width: 90%;
+  background-color: #fff;
+  border-radius: 4px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.feature-card {
+  border-radius: 10px;
+  text-align: center;
+  margin: 100px;
 }

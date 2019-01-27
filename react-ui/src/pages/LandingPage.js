@@ -6,7 +6,7 @@ import "css/LandingPage.css";
 
 import { fetchWeatherByZipcode } from "actions/weatherData";
 
-import { Form, Input, Button } from "antd";
+import { Input, Card, Icon } from "antd";
 const Search = Input.Search;
 
 class LandingPage extends Component {
@@ -34,15 +34,67 @@ class LandingPage extends Component {
       <Page>
         <div className="banner">
           <div className="banner-input">
-            <Search
-              placeholder="input zipcode"
-              enterButton="Search"
-              size="large"
-              onSearch={this.handleSearch}
-            />
-            <h1>hello</h1>
+            <div style={{ textAlign: "center", margin: "40px" }}>
+              <h2>
+                <span style={{ color: "#6c63ff" }}>
+                  <b>Overcast</b>
+                </span>{" "}
+                is an application driven by data, providing you with accurate
+                weather predictions no matter your location!
+              </h2>
+              <div style={{ margin: "50px 70px" }}>
+                <Search
+                  placeholder="input zipcode"
+                  enterButton="Search"
+                  size="large"
+                  onSearch={this.handleSearch}
+                />
+              </div>
+            </div>
           </div>
-          <div className="banner-image" />
+          <div className="banner-image">
+            <img
+              alt="undraw weather"
+              width="100%"
+              src="./undraw_weather_d9t2.svg"
+            />
+          </div>
+        </div>
+        <div className="section" style={{ height: "500px" }}>
+          <div className="feature-list-container">
+            <Card
+              className="feature-card"
+              size="small"
+              title="Temperature"
+              style={{ marginRight: "5%" }}
+            >
+              <Icon style={{ fontSize: "32pt" }} type="cloud" />
+            </Card>
+            <Card
+              className="feature-card"
+              size="small"
+              title="Temperature"
+              style={{ marginRight: "5%" }}
+            >
+              <Icon style={{ fontSize: "32pt" }} type="cloud" />
+            </Card>
+            <Card
+              className="feature-card"
+              size="small"
+              title="Temperature"
+              style={{ marginRight: "5%" }}
+            >
+              <Icon style={{ fontSize: "32pt" }} type="cloud" />
+            </Card>
+            <Card
+              className="feature-card"
+              size="small"
+              title="Temperature"
+              style={{ marginRight: "5%" }}
+            >
+              <Icon style={{ fontSize: "32pt" }} type="cloud" />
+            </Card>
+          </div>
         </div>
       </Page>
     );

@@ -46,7 +46,39 @@ if (cluster.isMaster) {
   //Log traffic through API
   app.use(loggingMiddleware);
 
-  app.use("/api/weather/zipcode/:zip", (req, res) => {
+  app.use("/api/forecast/ip", (req, res) => {
+    request(
+      `http://api.ipstack.com/${req.ip}?access_key=${process.env.IP_STACK_API}`,
+      function(error, response, body) {
+        if (error) {
+          next(error);
+        } else {
+          var body = JSON.parse(body);
+          var lat = body.latitude;
+          var lng = body.longitude;
+
+          request(
+            `https://api.darksky.net/forecast/${
+              process.env.DARK_SKY_API
+            }/${lat},${lng}`,
+            function(errror, response, body) {
+              if (error) {
+                next(error);
+              } else {
+                res.json({
+                  locationData: res.locationData,
+                  weatherData: JSON.parse(body)
+                });
+              }
+              console.log("------------------------------");
+            }
+          );
+        }
+      }
+    );
+  });
+
+  app.use("/api/forecast/zipcode/:zip", (req, res) => {
     request(
       `https://maps.googleapis.com/maps/api/geocode/json?address=${
         req.params.zip
@@ -82,7 +114,7 @@ if (cluster.isMaster) {
     );
   });
 
-  app.get("/api/:lat/:lng", (req, res) => {
+  app.get("/api/forecast/:lat/:lng", (req, res) => {
     console.log();
     request(
       `https://api.darksky.net/forecast/${process.env.DARK_SKY_API}/${

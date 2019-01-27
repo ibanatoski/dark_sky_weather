@@ -1,5 +1,4 @@
 .nav-container {
-  height: 60px;
   width: 100vw;
   margin: 0;
   background-color: white;
@@ -12,4 +11,16 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+
+.nav-title {
+  font-size: 24pt;
+  font-weight: bold;
+  color: #6c63ff;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: row;
+  margin: 0px 10px;
 }
