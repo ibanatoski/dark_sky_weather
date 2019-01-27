@@ -14,7 +14,7 @@ function loggingMiddleware(req, res, next) {
   console.log("------------------------------");
   console.log("req.user", req.user);
   console.log("header.authorization: ", req.headers.authorization);
-  console.log("ip:", req.ip);
+  console.log("ip:", req.connection.remoteAddress);
   next();
 }
 
@@ -48,7 +48,9 @@ if (cluster.isMaster) {
 
   app.use("/api/forecast/ip", (req, res) => {
     request(
-      `http://api.ipstack.com/${req.ip}?access_key=${process.env.IP_STACK_API}`,
+      `http://api.ipstack.com/${req.connection.remoteAddress}?access_key=${
+        process.env.IP_STACK_API
+      }`,
       function(error, response, body) {
         if (error) {
           next(error);
@@ -66,6 +68,7 @@ if (cluster.isMaster) {
                 next(error);
               } else {
                 res.json({
+                  ip: req.connection.remoteAddress,
                   locationData: body,
                   weatherData: JSON.parse(body)
                 });
