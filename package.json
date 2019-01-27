@@ -1,6 +1,9 @@
 {
   "name": "dark_sky_weather",
   "version": "1.0.0",
+  "engines": {
+    "node": "10.3.0"
+  },
   "description": "React express node app for looking at whether the weather is good or bad",
   "main": "index.js",
   "scripts": {
@@ -31,6 +34,12 @@
     "express": "^4.16.4",
     "request": "^2.88.0"
   },
+  "keywords": [
+    "node",
+    "heroku",
+    "create-react-app",
+    "react"
+  ],
   "nodemonConfig": {
     "ignore": [
       "test/*",
