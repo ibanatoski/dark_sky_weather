@@ -1,0 +1,81 @@
+.day-summary {
+  width: 70%;
+  background-color: #fff;
+  border-radius: 4px;
+  margin: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
+}
+
+.page-content {
+  margin: 0 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.forecast-banner {
+  background-color: #edebff;
+  padding: 100px 0px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.forecast-banner-search {
+  display: flex;
+  justify-content: center;
+}
+
+.day-summary-top {
+  display: flex;
+  flex-direction: row;
+  margin-top: 50px;
+}
+
+.day-summary-bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 10px;
+  width: 100%;
+  background-color: #b5b1ff;
+  border-radius: 0px 0px 4px 4px;
+}
+
+.forecast-title {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.extra-detail {
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.card-action {
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom-item {
+  display: flex;
+  align-items: center;
+  font-size: 1em;
+}
+
+@media screen and (max-width: 1000px) {
+  .day-summary {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+  }
+}

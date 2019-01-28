@@ -1,0 +1,86 @@
+.container {
+}
+.day-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 4px;
+  width: 100%;
+  box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
+}
+.day-container-top {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.day-container-top:hover {
+  background-color: #eee;
+  width: 100%;
+  cursor: pointer;
+}
+
+.day-accent {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.temperature-bar-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  /* margin: 0% 10px; */
+  padding: 0% 5%;
+  font-size: 2em;
+}
+
+.temperature-low {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.temperature-bar {
+  background-color: #6c63ff;
+  border-radius: 2em;
+}
+.icon-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.day-of-week {
+  width: 60px;
+  text-align: center;
+}
+
+.extra-detail-card {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+}
+
+.detail-card-stats {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.extra-detail-card-desc {
+  text-align: center;
+  font-size: 2em;
+  margin: 2%;
+}
+
+.detail-stat {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  align-items: center;
+  height: 100px;
+}
