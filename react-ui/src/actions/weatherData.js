@@ -88,7 +88,7 @@ export function fetchWeatherByIp() {
 
     return WeatherApi.fetchWeatherByIp()
       .then(json => {
-        console.log("fetchWeatherByIp", json);
+        // console.log("fetchWeatherByIp", json);
         return json
           ? dispatch(fetchWeatherByIpSuccess(json))
           : dispatch(fetchWeatherByIpFailure());
