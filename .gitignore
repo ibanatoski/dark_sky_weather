@@ -46,5 +46,6 @@ yarn-error.log*
 /react-ui/.idea
 /react-ui/.idea/*
 
+react-ui/src/**/*.css
 
 .env
