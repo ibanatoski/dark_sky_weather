@@ -6,6 +6,7 @@ import Page from "./Page";
 import "css/Forecast.css";
 
 import DayCard from "components/DayCard";
+import DayCharts from "components/DayCharts";
 
 import { fetchWeatherByZipcode, fetchLocationByIP } from "actions/weatherData";
 
@@ -212,24 +213,26 @@ class Forecast extends Component {
     return (
       <div style={{ textAlign: "center" }}>
         <h1>{loc ? loc.formatted_address : "Enter your zipcode here"}</h1>
-        <Search
-          placeholder="input zipcode"
-          enterButton="Search"
-          size="large"
-          style={{ width: "300px" }}
-          onSearch={this.handleSearch}
-        />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginRight: "30px"
-          }}
-        >
-          <Button onClick={() => this.props.fetchLocationByIP()}>
-            <Icon type="environment" />
-            Find Me
-          </Button>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <Search
+            placeholder="input zipcode"
+            enterButton="Search"
+            size="large"
+            style={{ width: "300px", marginRight: "10px" }}
+            onSearch={this.handleSearch}
+          />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginRight: "30px"
+            }}
+          >
+            <Button onClick={() => this.props.fetchLocationByIP()}>
+              <Icon type="environment" />
+              Find Me
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -243,6 +246,9 @@ class Forecast extends Component {
       : null;
 
     var daily = this.props.forecastData ? this.props.forecastData.daily : null;
+    var hourly = this.props.forecastData
+      ? this.props.forecastData.hourly
+      : null;
     return (
       <Page>
         <div className="forecast-banner">
@@ -255,6 +261,11 @@ class Forecast extends Component {
         </div>
         <div className="page-content">
           {current ? this.renderWeekSummary(daily) : null}
+          {hourly ? (
+            <div>
+              <DayCharts hourly={hourly} />
+            </div>
+          ) : null}
         </div>
       </Page>
     );
