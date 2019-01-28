@@ -63,6 +63,14 @@ if (cluster.isMaster) {
         } else {
           var lat = locBody.latitude;
           var lng = locBody.longitude;
+          locBody.formatted_address =
+            locBody.city +
+            ", " +
+            locBody.region_code +
+            " " +
+            locBody.zip +
+            " " +
+            country_code;
 
           request(
             `https://api.darksky.net/forecast/${

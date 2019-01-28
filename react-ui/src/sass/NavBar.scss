@@ -6,17 +6,21 @@
   z-index: 10000;
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
   padding-left: 30px;
+
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between; }
+  justify-content: space-between;
+}
 
 .nav-title {
   font-size: 24pt;
   font-weight: bold;
-  color: #6c63ff; }
+  color: #6c63ff;
+}
 
 .nav-menu {
   display: flex;
   flex-direction: row;
-  margin: 0px 10px; }
+  margin: 0px 10px;
+}

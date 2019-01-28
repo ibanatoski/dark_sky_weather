@@ -3,30 +3,35 @@
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center; }
+  justify-content: center;
+}
 
 .banner {
   height: 90vh;
   width: 100%;
   padding-top: 100px;
   background-color: #edebff;
+
   display: flex;
   flex-direction: row;
-  justify-content: space-between; }
+  justify-content: space-between;
+}
 
 .banner-input {
   width: 40%;
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+}
 
 .banner-image {
   width: 60%;
   height: 100%;
   padding: 1% 10%;
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+}
 
 .feature-list-container {
   padding: 1.5rem;
@@ -36,9 +41,11 @@
   align-items: center;
   display: flex;
   justify-content: center;
-  flex-direction: row; }
+  flex-direction: row;
+}
 
 .feature-card {
   border-radius: 10px;
   text-align: center;
-  margin: 100px; }
+  margin: 100px;
+}
