@@ -8,7 +8,13 @@ import "css/Forecast.css";
 import DayCard from "components/DayCard";
 import DayCharts from "components/DayCharts";
 
-import { fetchWeatherByZipcode, fetchLocationByIP } from "actions/weatherData";
+import {
+  fetchWeatherByZipcode,
+  fetchLocationByIP,
+  fetchWeatherByIp,
+  fetchHourlyWeatherByLocationTime
+} from "actions/weatherData";
+import { formatDate } from "utils/formatDate.js";
 
 import { Input, Card, Icon, List, Button } from "antd";
 
@@ -27,7 +33,6 @@ class Forecast extends Component {
     var parsed = queryString.parse(this.props.location.search);
     if (!parsed.zipcode) {
       parsed = { zipcode: 20001 }; // default to washington dc
-      console.log("parsed.zipcode", parsed.zipcode);
       this.props.history.push(`/forecast?zipcode=${parsed.zipcode}`);
     }
     this.setState({ zipcode: parsed.zipcode });
@@ -44,7 +49,6 @@ class Forecast extends Component {
   }
 
   handleFindWeatherByIP = () => {
-    console.log("fetching forecast by IP");
     this.props.fetchWeatherByIp();
   };
 
@@ -77,6 +81,9 @@ class Forecast extends Component {
   renderTodaySummary = (current, daily) => {
     return (
       <div className="day-summary">
+        <div style={{ fontSize: "16pt", fontWeight: "bold" }}>
+          {formatDate(new Date(current.time * 1000))}
+        </div>
         <div className="day-summary-top">
           <div className="icon-container">
             <img alt="summary-svg" src={`./svgs/${current.icon}.svg`} />
@@ -187,12 +194,24 @@ class Forecast extends Component {
   };
 
   renderDayListItem = (data, i) => {
+    console.log(
+      "this.props.week[`${data.time}`]",
+      this.props.week[`${data.time}`]
+    );
     return (
       <List.Item key={i}>
         <DayCard
           data={data}
           latitude={this.props.forecastData.latitude}
           longitude={this.props.forecastData.longitude}
+          hourly={this.props.week[`${data.time}`]}
+          loadMore={() =>
+            this.props.fetchHourlyWeatherByLocationTime(
+              this.props.forecastData.latitude,
+              this.props.forecastData.longitude,
+              data.time
+            )
+          }
         />
       </List.Item>
     );
@@ -209,7 +228,6 @@ class Forecast extends Component {
   };
 
   renderSearchLocation = loc => {
-    console.log("loc", loc);
     return (
       <div style={{ textAlign: "center" }}>
         <h1>{loc ? loc.formatted_address : "Enter your zipcode here"}</h1>
@@ -228,7 +246,7 @@ class Forecast extends Component {
               marginRight: "30px"
             }}
           >
-            <Button onClick={() => this.props.fetchLocationByIP()}>
+            <Button onClick={() => this.props.fetchWeatherByIP()}>
               <Icon type="environment" />
               Find Me
             </Button>
@@ -239,7 +257,6 @@ class Forecast extends Component {
   };
 
   render() {
-    console.log(this.props.forecastData);
     var locationData = this.props.locationData;
     var current = this.props.forecastData
       ? this.props.forecastData.currently
@@ -260,12 +277,43 @@ class Forecast extends Component {
           </div>
         </div>
         <div className="page-content">
-          {current ? this.renderWeekSummary(daily) : null}
           {hourly ? (
-            <div>
-              <DayCharts hourly={hourly} />
+            <div
+              className="today-detail"
+              onClick={() =>
+                this.setState({
+                  displayTodayDetail: !this.state.displayTodayDetail
+                })
+              }
+            >
+              <div className="today-in-detail-top-bar">
+                <h1>Today In Detail</h1>
+                {this.state.displayTodayDetail ? (
+                  <Icon
+                    style={{ fontSize: "3em" }}
+                    type="down-circle"
+                    theme="twoTone"
+                    twoToneColor="#6C63FF"
+                  />
+                ) : (
+                  <Icon
+                    style={{ fontSize: "3em" }}
+                    type="right-circle"
+                    theme="twoTone"
+                    twoToneColor="#6C63FF"
+                  />
+                )}
+              </div>
+              {this.state.displayTodayDetail ? (
+                <div>
+                  <DayCharts hourly={hourly} />
+                </div>
+              ) : (
+                <h3>{hourly.summary}</h3>
+              )}
             </div>
           ) : null}
+          {current ? this.renderWeekSummary(daily) : null}
         </div>
       </Page>
     );
@@ -276,7 +324,8 @@ export default withRouter(
   connect(
     state => ({
       locationData: state.weatherData.geoLoc,
-      forecastData: state.weatherData.weather
+      forecastData: state.weatherData.weather,
+      week: state.weatherData.week
     }),
     dispatch => ({
       fetchWeatherByZipcode: zipcode => {
@@ -284,6 +333,12 @@ export default withRouter(
       },
       fetchLocationByIP: () => {
         return dispatch(fetchLocationByIP());
+      },
+      fetchWeatherByIP: () => {
+        return dispatch(fetchWeatherByIp());
+      },
+      fetchHourlyWeatherByLocationTime: (lat, lng, time) => {
+        return dispatch(fetchHourlyWeatherByLocationTime(lat, lng, time));
       }
     })
   )(Forecast)

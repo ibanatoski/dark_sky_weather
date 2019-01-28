@@ -14,7 +14,7 @@ const MenuItemGroup = Menu.ItemGroup;
 
 class NavBar extends Component {
   state = {
-    current: "mail"
+    current: "home"
   };
 
   componentWillMount() {}
@@ -27,10 +27,10 @@ class NavBar extends Component {
     if (zipcode) this.props.history.push(`/forecast?zipcode=${zipcode}`);
   };
 
-  handleFindWeatherByIP = () => {
-    console.log("fetching forecast by IP");
-    this.props.fetchWeatherByIp();
-  };
+  // handleFindWeatherByIP = () => {
+  //   console.log("fetching forecast by IP");
+  //   this.props.fetchWeatherByIp();
+  // };
 
   handleClick = e => {
     console.log("click ", e);
@@ -41,12 +41,13 @@ class NavBar extends Component {
 
   renderNavMenu = () => {
     return (
-      <Menu
-        onClick={() => this.props.history.push(`/forecast`)}
-        selectedKeys={[this.state.current]}
-        mode="horizontal"
-      >
-        <Menu.Item key="mail">Forecast</Menu.Item>
+      <Menu selectedKeys={[this.state.current]} mode="horizontal">
+        <Menu.Item
+          key="forecast"
+          onClick={() => this.props.history.push(`/forecast`)}
+        >
+          Forecast
+        </Menu.Item>
       </Menu>
     );
   };
@@ -72,20 +73,7 @@ class NavBar extends Component {
               style={{
                 display: "flex",
                 alignItems: "center",
-                marginRight: "30px"
-              }}
-            >
-              <Button onClick={this.handleFindWeatherByIP}>
-                <Icon type="environment" />
-                Find Me
-              </Button>
-            </div>
-            {this.renderNavMenu()}
-
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center"
+                marginRight: "20px"
               }}
             >
               <Search
@@ -95,6 +83,7 @@ class NavBar extends Component {
                 onSearch={this.handleSearch}
               />
             </div>
+            {this.renderNavMenu()}
           </div>
         </div>
       </div>

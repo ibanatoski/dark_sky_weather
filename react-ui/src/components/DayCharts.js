@@ -31,12 +31,17 @@ class DayCharts extends Component {
       <div className="day-charts-container">
         <div className="chart-container">
           <h3>Temperature</h3>
-          <ResponsiveContainer width={"100%"} height={200}>
+          <ResponsiveContainer
+            width={"100%"}
+            height={this.props.height ? this.props.height : 200}
+          >
             <AreaChart
               data={hourly.data}
               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
             >
-              <CartesianGrid strokeDasharray="3 3" />
+              {this.props.displayGrids ? (
+                <CartesianGrid strokeDasharray="3 3" />
+              ) : null}
               <XAxis dataKey="time" tickFormatter={formatXAxisHours} />
               <YAxis />
               <Tooltip formatter={str => str + "°F"} />
@@ -51,15 +56,20 @@ class DayCharts extends Component {
         </div>
         <div className="chart-container">
           <h3>Precipitation Probability</h3>
-          <ResponsiveContainer width={"100%"} height={200}>
+          <ResponsiveContainer
+            width={"100%"}
+            height={this.props.height ? this.props.height : 200}
+          >
             <AreaChart
               data={hourly.data}
               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
             >
-              <CartesianGrid strokeDasharray="3 3" />
+              {this.props.displayGrids ? (
+                <CartesianGrid strokeDasharray="3 3" />
+              ) : null}
               <XAxis dataKey="time" tickFormatter={formatXAxisHours} />
               <YAxis tickFormatter={str => str * 100 + "%"} />
-              <Tooltip formatter={str => str * 100 + "%"} />
+              <Tooltip formatter={str => Math.round(str * 100) + "%"} />
               <Area
                 type="monotone"
                 dataKey="precipProbability"
@@ -71,12 +81,17 @@ class DayCharts extends Component {
         </div>
         <div className="chart-container">
           <h3>Wind Speed</h3>
-          <ResponsiveContainer width={"100%"} height={200}>
+          <ResponsiveContainer
+            width={"100%"}
+            height={this.props.height ? this.props.height : 200}
+          >
             <AreaChart
               data={hourly.data}
               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
             >
-              <CartesianGrid strokeDasharray="3 3" />
+              {this.props.displayGrids ? (
+                <CartesianGrid strokeDasharray="3 3" />
+              ) : null}
               <XAxis dataKey="time" tickFormatter={formatXAxisHours} />
               <YAxis />
               <Tooltip formatter={str => str + "mph"} />
@@ -92,12 +107,17 @@ class DayCharts extends Component {
         <div className="chart-container">
           <h3>Visibility</h3>
 
-          <ResponsiveContainer width={"100%"} height={200}>
+          <ResponsiveContainer
+            width={"100%"}
+            height={this.props.height ? this.props.height : 200}
+          >
             <AreaChart
               data={hourly.data}
               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
             >
-              <CartesianGrid strokeDasharray="3 3" />
+              {this.props.displayGrids ? (
+                <CartesianGrid strokeDasharray="3 3" />
+              ) : null}
               <XAxis dataKey="time" tickFormatter={formatXAxisHours} />
               <YAxis />
               <Tooltip formatter={str => str + "miles"} />
@@ -113,12 +133,17 @@ class DayCharts extends Component {
         <div className="chart-container">
           <h3>UV Index</h3>
 
-          <ResponsiveContainer width={"100%"} height={200}>
+          <ResponsiveContainer
+            width={"100%"}
+            height={this.props.height ? this.props.height : 200}
+          >
             <AreaChart
               data={hourly.data}
               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
             >
-              <CartesianGrid strokeDasharray="3 3" />
+              {this.props.displayGrids ? (
+                <CartesianGrid strokeDasharray="3 3" />
+              ) : null}
               <XAxis dataKey="time" tickFormatter={formatXAxisHours} />
               <YAxis />
               <Tooltip formatter={str => str + ""} />

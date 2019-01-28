@@ -53,7 +53,6 @@ export function fetchWeatherByZipcode(zipcode) {
 
     return WeatherApi.fetchWeatherByZipcode(zipcode)
       .then(json => {
-        console.log(json);
         return json
           ? dispatch(fetchWeatherByZipcodeSuccess(zipcode, json))
           : dispatch(fetchWeatherByZipcodeFailure(zipcode));
@@ -76,14 +75,18 @@ function fetchWeatherByIpRequest() {
 }
 
 function fetchWeatherByIpSuccess(json) {
+  console.log("FETCH_WEATHER_IP_SUCCESS");
+
   return {
     type: FETCH_WEATHER_IP_SUCCESS,
+    locationData: json.locationData,
     weatherData: json.weatherData,
     receivedAt: Date.now()
   };
 }
 
 function fetchWeatherByIpFailure() {
+  console.log("FETCH_WEATHER_IP_FAILURE");
   return {
     type: FETCH_WEATHER_IP_FAILURE,
     receivedAt: Date.now()
@@ -96,7 +99,7 @@ export function fetchWeatherByIp() {
 
     return WeatherApi.fetchWeatherByIp()
       .then(json => {
-        // console.log("fetchWeatherByIp", json);
+        console.log("json", json);
         return json
           ? dispatch(fetchWeatherByIpSuccess(json))
           : dispatch(fetchWeatherByIpFailure());
@@ -114,35 +117,35 @@ export function fetchWeatherByIp() {
 //------------------------------------------------------------------------------------------------------------
 function fetchWeatherByLocTimeRequest() {
   return {
-    type: FETCH_WEATHER_IP_REQUEST
+    type: FETCH_WEATHER_LOC_TIME_REQUEST
   };
 }
 
-function fetchWeatherByLocTimeSuccess(json) {
-  console.log("fetchWeatherByLocTimeSuccess", json);
+function fetchWeatherByLocTimeSuccess(request, json) {
   return {
-    type: FETCH_WEATHER_IP_SUCCESS,
-    weatherData: json.weatherData,
+    type: FETCH_WEATHER_LOC_TIME_SUCCESS,
+    request: request,
+    weatherData: json.hourly,
     receivedAt: Date.now()
   };
 }
 
 function fetchWeatherByLocTimeFailure() {
   return {
-    type: FETCH_WEATHER_IP_FAILURE,
+    type: FETCH_WEATHER_LOC_TIME_FAILURE,
     receivedAt: Date.now()
   };
 }
 
 export function fetchHourlyWeatherByLocationTime(lat, lng, timestamp) {
+  var request = { lat, lng, timestamp };
   return function(dispatch) {
     dispatch(fetchWeatherByLocTimeRequest());
 
     return WeatherApi.fetchWeatherByLocTime(lat, lng, timestamp)
       .then(json => {
-        console.log("fetchHourlyWeatherByLocationTime", json);
         return json
-          ? dispatch(fetchWeatherByLocTimeSuccess(json))
+          ? dispatch(fetchWeatherByLocTimeSuccess(request, json))
           : dispatch(fetchWeatherByLocTimeFailure());
       })
       .catch(error => {
@@ -184,8 +187,7 @@ export function fetchLocationByIP() {
 
     return WeatherApi.fetchLocationFromIP()
       .then(json => {
-        console.log(json);
-        return json
+        return json && json.code !== 400
           ? dispatch(fetchLocationByIPSuccess(json))
           : dispatch(fetchLocationByIPFailure());
       })

@@ -48,18 +48,21 @@ if (cluster.isMaster) {
   //Log traffic through API
   app.use(loggingMiddleware);
 
-  app.use("/api/forecast/ip", (req, res) => {
+  app.get("/api/forecast/ip", (req, res) => {
+    console.log("/api/forecast/ip");
     request(
       `http://api.ipstack.com/${req.client_ip}?access_key=${
         process.env.IP_STACK_API
       }`,
-      function(error, response, body) {
-        if (error) {
-          next(error);
+      function(error, response, loc) {
+        var locBody = JSON.parse(loc);
+        console.log("locBody", locBody);
+        if (error || !locBody.latitude || !locBody.longitude) {
+          console.log("ipstack error");
+          throw new Error("could not locate IP"); // Express will catch this on its own.
         } else {
-          var body = JSON.parse(body);
-          var lat = body.latitude;
-          var lng = body.longitude;
+          var lat = locBody.latitude;
+          var lng = locBody.longitude;
 
           request(
             `https://api.darksky.net/forecast/${
@@ -67,11 +70,12 @@ if (cluster.isMaster) {
             }/${lat},${lng}`,
             function(errror, response, body) {
               if (error) {
-                next(error);
+                console.log("darksky error");
+                res.json({ code: 500, error: "could not locate IP" });
               } else {
                 res.json({
                   ip: req.client_ip,
-                  locationData: body,
+                  locationData: locBody,
                   weatherData: JSON.parse(body)
                 });
               }
@@ -83,7 +87,7 @@ if (cluster.isMaster) {
     );
   });
 
-  app.use("/api/forecast/zipcode/:zip", (req, res) => {
+  app.get("/api/forecast/zipcode/:zip", (req, res) => {
     request(
       `https://maps.googleapis.com/maps/api/geocode/json?address=${
         req.params.zip
@@ -142,10 +146,10 @@ if (cluster.isMaster) {
     request(
       `https://api.darksky.net/forecast/${process.env.DARK_SKY_API}/${
         req.params.lat
-      },${req.params.lng}, ${
+      },${req.params.lng},${
         req.params.timestamp
       }?exclude=currently,flags,minutely,daily,alerts`,
-      function(errror, response, body) {
+      function(error, response, body) {
         if (error) {
           next(error);
         } else {
@@ -161,7 +165,7 @@ if (cluster.isMaster) {
       `https://api.darksky.net/forecast/${process.env.DARK_SKY_API}/${
         req.params.lat
       },${req.params.lng}`,
-      function(errror, response, body) {
+      function(error, response, body) {
         if (error) {
           next(error);
         } else {

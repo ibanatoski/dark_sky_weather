@@ -33,8 +33,11 @@ class DayCard extends Component {
 
   handleShowMore = () => {
     console.log("show More");
+    if (!this.props.hourly) {
+      this.props.loadMore();
+    }
     this.setState({
-      showMore: true
+      showMore: !this.state.showMore
     });
   };
 
@@ -112,14 +115,21 @@ class DayCard extends Component {
           </span>
           {data.summary}
           <span style={{ display: "block", fontSize: ".7em" }}>
-            <Button onClick={this.handleShowMore}>Show More</Button>
+            {this.props.hourly && this.state.showMore ? (
+              <Button onClick={this.handleShowMore}>Show Less</Button>
+            ) : (
+              <Button onClick={this.handleShowMore}>Show More</Button>
+            )}
           </span>
         </div>
-        {this.state.showMore ? (
-          <DayCharts
-            latitude={this.props.latitude}
-            longitude={this.props.latitude}
-          />
+        {this.props.hourly && this.state.showMore ? (
+          <div style={{ margin: "5% 1%" }}>
+            <DayCharts
+              height={100}
+              hourly={this.props.hourly}
+              displayGrids={false}
+            />
+          </div>
         ) : null}
       </div>
     );

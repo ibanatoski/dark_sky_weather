@@ -7,7 +7,7 @@ const Page = ({ children }) => (
   <Layout>
     <NavBar />
     <Content style={{}}>{children}</Content>
-    <Footer />
+    <Footer style={{ backgroundColor: "#7E77FF", height: "300px" }} />
   </Layout>
 );
 
