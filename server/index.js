@@ -70,7 +70,7 @@ if (cluster.isMaster) {
             " " +
             locBody.zip +
             " " +
-            country_code;
+            locBody.country_code;
 
           request(
             `https://api.darksky.net/forecast/${
