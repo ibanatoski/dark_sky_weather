@@ -32,7 +32,6 @@ class DayCard extends Component {
   };
 
   handleShowMore = () => {
-    console.log("show More");
     if (!this.props.hourly) {
       this.props.loadMore();
     }
@@ -153,7 +152,7 @@ class DayCard extends Component {
               </span>
             </div>
           </div>
-          <div className="temperature-bar-container">
+          <div className={`temperature-bar-container ${this.props.render}`}>
             <span
               style={{
                 zIndex: "100",

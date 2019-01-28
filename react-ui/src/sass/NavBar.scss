@@ -24,3 +24,15 @@
   flex-direction: row;
   margin: 0px 10px;
 }
+
+.nav-search {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+@media screen and (max-width: 600px) {
+  .nav-search {
+    margin: 0px 5px;
+  }
+}

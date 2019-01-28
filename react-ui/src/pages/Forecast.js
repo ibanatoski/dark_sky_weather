@@ -25,17 +25,43 @@ class Forecast extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      zipcode: null
+      zipcode: null,
+      width: 0,
+      height: 0,
+      render: ""
     };
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
   componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener("resize", this.updateWindowDimensions);
     var parsed = queryString.parse(this.props.location.search);
     if (!parsed.zipcode) {
       parsed = { zipcode: 20001 }; // default to washington dc
       this.props.history.push(`/forecast?zipcode=${parsed.zipcode}`);
     }
     this.setState({ zipcode: parsed.zipcode });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions() {
+    if (window.innerWidth < 600) {
+      this.setState({
+        render: "small",
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    } else {
+      this.setState({
+        render: "",
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -84,7 +110,7 @@ class Forecast extends Component {
         <div style={{ fontSize: "16pt", fontWeight: "bold" }}>
           {formatDate(new Date(current.time * 1000))}
         </div>
-        <div className="day-summary-top">
+        <div className={`day-summary-top`}>
           <div className="icon-container">
             <img alt="summary-svg" src={`./svgs/${current.icon}.svg`} />
           </div>
@@ -194,14 +220,11 @@ class Forecast extends Component {
   };
 
   renderDayListItem = (data, i) => {
-    console.log(
-      "this.props.week[`${data.time}`]",
-      this.props.week[`${data.time}`]
-    );
     return (
       <List.Item key={i}>
         <DayCard
           data={data}
+          render={this.state.render}
           latitude={this.props.forecastData.latitude}
           longitude={this.props.forecastData.longitude}
           hourly={this.props.week[`${data.time}`]}
@@ -231,19 +254,28 @@ class Forecast extends Component {
     return (
       <div style={{ textAlign: "center" }}>
         <h1>{loc ? loc.formatted_address : "Enter your zipcode here"}</h1>
-        <div style={{ display: "flex", flexDirection: "row" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: this.state.render == "" ? "row" : "column",
+            justifyContent: "center",
+            width: "100%"
+          }}
+        >
           <Search
             placeholder="input zipcode"
             enterButton="Search"
             size="large"
-            style={{ width: "300px", marginRight: "10px" }}
+            style={{ width: "300px" }}
             onSearch={this.handleSearch}
           />
           <div
             style={{
               display: "flex",
+              justifyContent: "center",
               alignItems: "center",
-              marginRight: "30px"
+              marginTop: this.state.render == "" ? "0" : "30px",
+              marginLeft: "30px"
             }}
           >
             <Button onClick={() => this.props.fetchWeatherByIP()}>

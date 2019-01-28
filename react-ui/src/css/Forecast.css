@@ -37,7 +37,8 @@
 
 .forecast-banner-search {
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+  width: 100%; }
 
 .day-summary-top {
   display: flex;

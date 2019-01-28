@@ -33,7 +33,6 @@ class NavBar extends Component {
   // };
 
   handleClick = e => {
-    console.log("click ", e);
     this.setState({
       current: e.key
     });
@@ -53,7 +52,6 @@ class NavBar extends Component {
   };
 
   render() {
-    console.log("render Nav");
     return (
       <div className="nav-container">
         <div className="nav-section">
@@ -69,13 +67,7 @@ class NavBar extends Component {
 
         <div className="nav-section">
           <div className="nav-menu">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginRight: "20px"
-              }}
-            >
+            <div className="nav-search">
               <Search
                 placeholder="input zipcode"
                 enterButton={<Icon type="search" />}

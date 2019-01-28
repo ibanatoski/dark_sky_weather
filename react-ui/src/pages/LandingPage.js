@@ -25,7 +25,6 @@ class LandingPage extends Component {
   componentDidUpdate(prevProps, prevState) {}
 
   handleSearch = zipcode => {
-    console.log(zipcode);
     // if (zipcode) this.props.fetchWeatherByZipcode(zipcode);
     if (zipcode.length == 5)
       this.props.history.push(`/forecast?zipcode=${zipcode}`);
@@ -44,7 +43,7 @@ class LandingPage extends Component {
                 is an application driven by data, providing you with accurate
                 weather predictions no matter your location!
               </h2>
-              <div style={{ margin: "50px 70px" }}>
+              <div className="banner-input-search-bar">
                 <Search
                   placeholder="input zipcode"
                   enterButton="Search"
@@ -58,44 +57,9 @@ class LandingPage extends Component {
             <img
               alt="undraw weather"
               width="100%"
+              height="100%"
               src="./undraw_weather_d9t2.svg"
             />
-          </div>
-        </div>
-        <div className="section" style={{ height: "500px" }}>
-          <div className="feature-list-container">
-            <Card
-              className="feature-card"
-              size="small"
-              title="Temperature"
-              style={{ marginRight: "5%" }}
-            >
-              <Icon style={{ fontSize: "32pt" }} type="cloud" />
-            </Card>
-            <Card
-              className="feature-card"
-              size="small"
-              title="Temperature"
-              style={{ marginRight: "5%" }}
-            >
-              <Icon style={{ fontSize: "32pt" }} type="cloud" />
-            </Card>
-            <Card
-              className="feature-card"
-              size="small"
-              title="Temperature"
-              style={{ marginRight: "5%" }}
-            >
-              <Icon style={{ fontSize: "32pt" }} type="cloud" />
-            </Card>
-            <Card
-              className="feature-card"
-              size="small"
-              title="Temperature"
-              style={{ marginRight: "5%" }}
-            >
-              <Icon style={{ fontSize: "32pt" }} type="cloud" />
-            </Card>
           </div>
         </div>
       </Page>
