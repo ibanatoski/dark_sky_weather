@@ -12,6 +12,10 @@ export const FETCH_WEATHER_LOC_TIME_REQUEST = "FETCH_WEATHER_LOC_TIME_REQUEST";
 export const FETCH_WEATHER_LOC_TIME_SUCCESS = "FETCH_WEATHER_LOC_TIME_SUCCESS";
 export const FETCH_WEATHER_LOC_TIME_FAILURE = "FETCH_WEATHER_LOC_TIME_FAILURE";
 
+export const FETCH_IP_LOCATION_REQUEST = "FETCH_IP_LOCATION_REQUEST";
+export const FETCH_IP_LOCATION_SUCCESS = "FETCH_IP_LOCATION_SUCCESS";
+export const FETCH_IP_LOCATION_FAILURE = "FETCH_IP_LOCATION_FAILURE";
+
 //------------------------------------------------------------------------------------------------------------
 //
 //    Forecast By Zipcode
@@ -143,6 +147,50 @@ export function fetchHourlyWeatherByLocationTime(lat, lng, timestamp) {
       })
       .catch(error => {
         dispatch(fetchWeatherByLocTimeFailure());
+      });
+  };
+}
+
+//------------------------------------------------------------------------------------------------------------
+//
+//    Location By IP
+//
+//------------------------------------------------------------------------------------------------------------
+
+function fetchLocationByIPRequest() {
+  return {
+    type: FETCH_IP_LOCATION_REQUEST
+  };
+}
+
+function fetchLocationByIPSuccess(json) {
+  return {
+    type: FETCH_IP_LOCATION_SUCCESS,
+    locationData: json.locationData,
+    receivedAt: Date.now()
+  };
+}
+
+function fetchLocationByIPFailure(request) {
+  return {
+    type: FETCH_IP_LOCATION_FAILURE,
+    receivedAt: Date.now()
+  };
+}
+
+export function fetchLocationByIP() {
+  return function(dispatch) {
+    dispatch(fetchLocationByIPRequest());
+
+    return WeatherApi.fetchLocationFromIP()
+      .then(json => {
+        console.log(json);
+        return json
+          ? dispatch(fetchLocationByIPSuccess(json))
+          : dispatch(fetchLocationByIPFailure());
+      })
+      .catch(error => {
+        dispatch(fetchLocationByIPFailure());
       });
   };
 }

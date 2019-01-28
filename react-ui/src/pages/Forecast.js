@@ -7,9 +7,9 @@ import "css/Forecast.css";
 
 import DayCard from "components/DayCard";
 
-import { fetchWeatherByZipcode } from "actions/weatherData";
+import { fetchWeatherByZipcode, fetchLocationByIP } from "actions/weatherData";
 
-import { Input, Card, Icon, List } from "antd";
+import { Input, Card, Icon, List, Button } from "antd";
 
 const Search = Input.Search;
 const { Meta } = Card;
@@ -17,20 +17,40 @@ const { Meta } = Card;
 class Forecast extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      zipcode: null
+    };
   }
 
   componentDidMount() {
-    const parsed = queryString.parse(this.props.location.search);
-    this.handleSearch(parsed.zipcode);
+    var parsed = queryString.parse(this.props.location.search);
+    if (!parsed.zipcode) {
+      parsed = { zipcode: 20001 }; // default to washington dc
+      console.log("parsed.zipcode", parsed.zipcode);
+      this.props.history.push(`/forecast?zipcode=${parsed.zipcode}`);
+    }
     this.setState({ zipcode: parsed.zipcode });
   }
 
-  componentDidUpdate(prevProps, prevState) {}
+  componentDidUpdate(prevProps, prevState) {
+    const parsed = queryString.parse(this.props.location.search);
+    if (prevState.zipcode !== parsed.zipcode) {
+      this.props.fetchWeatherByZipcode(parsed.zipcode);
+      this.setState({
+        zipcode: parsed.zipcode
+      });
+    }
+  }
+
+  handleFindWeatherByIP = () => {
+    console.log("fetching forecast by IP");
+    this.props.fetchWeatherByIp();
+  };
 
   handleSearch = zipcode => {
-    console.log(zipcode);
-    if (zipcode) this.props.fetchWeatherByZipcode(zipcode);
+    if (this.state.zipcode !== zipcode) {
+      this.props.history.push(`/forecast?zipcode=${zipcode}`);
+    }
   };
 
   renderCardSummary = current => {
@@ -165,12 +185,14 @@ class Forecast extends Component {
     );
   };
 
-  render;
-
   renderDayListItem = (data, i) => {
     return (
       <List.Item key={i}>
-        <DayCard data={data} />
+        <DayCard
+          data={data}
+          latitude={this.props.forecastData.latitude}
+          longitude={this.props.forecastData.longitude}
+        />
       </List.Item>
     );
   };
@@ -185,19 +207,51 @@ class Forecast extends Component {
     );
   };
 
+  renderSearchLocation = loc => {
+    console.log("loc", loc);
+    return (
+      <div style={{ textAlign: "center" }}>
+        <h1>{loc ? loc.formatted_address : "Enter your zipcode here"}</h1>
+        <Search
+          placeholder="input zipcode"
+          enterButton="Search"
+          size="large"
+          style={{ width: "300px" }}
+          onSearch={this.handleSearch}
+        />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginRight: "30px"
+          }}
+        >
+          <Button onClick={() => this.props.fetchLocationByIP()}>
+            <Icon type="environment" />
+            Find Me
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
   render() {
-    console.log("render", this.props.locationData);
-    console.log("render", this.props.forecastData);
+    console.log(this.props.forecastData);
+    var locationData = this.props.locationData;
     var current = this.props.forecastData
       ? this.props.forecastData.currently
       : null;
 
     var daily = this.props.forecastData ? this.props.forecastData.daily : null;
-    console.log("daily", daily);
     return (
       <Page>
         <div className="forecast-banner">
-          {current ? this.renderTodaySummary(current, daily) : null}
+          <div className="forecast-banner-search">
+            {this.renderSearchLocation(locationData)}
+          </div>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            {current ? this.renderTodaySummary(current, daily) : null}
+          </div>
         </div>
         <div className="page-content">
           {current ? this.renderWeekSummary(daily) : null}
@@ -216,6 +270,9 @@ export default withRouter(
     dispatch => ({
       fetchWeatherByZipcode: zipcode => {
         return dispatch(fetchWeatherByZipcode(zipcode));
+      },
+      fetchLocationByIP: () => {
+        return dispatch(fetchLocationByIP());
       }
     })
   )(Forecast)

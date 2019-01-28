@@ -107,13 +107,32 @@ if (cluster.isMaster) {
                 next(error);
               } else {
                 res.json({
-                  locationData: res.locationData,
+                  locationData: res.locationData[0],
                   weatherData: JSON.parse(body)
                 });
               }
               console.log("------------------------------");
             }
           );
+        }
+      }
+    );
+  });
+
+  app.get("/api/location/ip", (req, res) => {
+    request(
+      `http://api.ipstack.com/${req.client_ip}?access_key=${
+        process.env.IP_STACK_API
+      }`,
+      function(error, response, body) {
+        if (error) {
+          next(error);
+        } else {
+          var body = JSON.parse(body);
+          var lat = body.latitude;
+          var lng = body.longitude;
+          res.send(body);
+          console.log("------------------------------");
         }
       }
     );

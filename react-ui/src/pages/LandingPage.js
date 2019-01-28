@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import Page from "./Page";
 import "css/LandingPage.css";
@@ -26,7 +26,9 @@ class LandingPage extends Component {
 
   handleSearch = zipcode => {
     console.log(zipcode);
-    if (zipcode) this.props.fetchWeatherByZipcode(zipcode);
+    // if (zipcode) this.props.fetchWeatherByZipcode(zipcode);
+    if (zipcode.length == 5)
+      this.props.history.push(`/forecast?zipcode=${zipcode}`);
   };
 
   render() {

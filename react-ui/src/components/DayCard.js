@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "css/DayCard.css";
 
+import DayCharts from "components/DayCharts.js";
+
 import { formatDate, getAbbrevDay, formatTime } from "utils/formatDate.js";
 
 import { Card, Icon, Button } from "antd";
@@ -18,7 +20,8 @@ class DayCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      renderDetail: false
+      renderDetail: false,
+      showMore: false
     };
   }
 
@@ -29,11 +32,13 @@ class DayCard extends Component {
   };
 
   handleShowMore = () => {
-    console.log("learn More");
+    console.log("show More");
+    this.setState({
+      showMore: true
+    });
   };
 
   renderExtraDetail = data => {
-    console.log("sunrise", formatTime(new Date(data.sunriseTime)));
     return (
       <div className="extra-detail-card">
         <div className="detail-card-stats">
@@ -79,13 +84,22 @@ class DayCard extends Component {
             {formatTime(new Date(data.sunsetTime * 1000))}
           </div>
           <div className="detail-stat">
-            <img
-              width="50%"
-              alt="precip"
-              src={`./svgs/${data.precipType}.svg`}
-            />
+            {data.precipType ? (
+              <img
+                width="50%"
+                alt="precip"
+                src={`./svgs/${data.precipType}.svg`}
+              />
+            ) : (
+              <img width="50%" alt="precip" src={`./svgs/${data.icon}.svg`} />
+            )}
+
             <div>
-              <span> {data.precipType.toUpperCase()}</span>
+              <span>
+                {data.precipType
+                  ? data.precipType.toUpperCase()
+                  : "Precipitation"}
+              </span>
               <span style={{ display: "block" }}>
                 {data.precipProbability}%
               </span>
@@ -101,6 +115,12 @@ class DayCard extends Component {
             <Button onClick={this.handleShowMore}>Show More</Button>
           </span>
         </div>
+        {this.state.showMore ? (
+          <DayCharts
+            latitude={this.props.latitude}
+            longitude={this.props.latitude}
+          />
+        ) : null}
       </div>
     );
   };
@@ -110,7 +130,6 @@ class DayCard extends Component {
     var date = data.time ? new Date(data.time * 1000) : null;
     var temperatureBarWith =
       100 - data.temperatureLow - (100 - data.temperatureHigh);
-    console.log("data", data);
     return (
       <div className="day-container" title={data ? data.summary : null}>
         <div className="day-container-top" onClick={this.handleDayClick}>

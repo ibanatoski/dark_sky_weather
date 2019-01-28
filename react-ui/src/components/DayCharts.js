@@ -6,15 +6,11 @@ import "css/DayCharts.css";
 import { fetchHourlyWeatherByLocationTime } from "actions/weatherData";
 
 class DayCharts extends Component {
-  state = {};
+  state = {
+    data: null
+  };
 
-  componentWillMount() {
-    this.props.fetchHourlyWeatherByLocationTime(
-      this.props.latitude,
-      this.props.longitude,
-      this.props.timestamp
-    );
-  }
+  componentWillMount() {}
 
   render() {
     return <div className="day-charts-container">PLace charts here</div>;
@@ -24,7 +20,7 @@ class DayCharts extends Component {
 export default withRouter(
   connect(
     state => ({
-      weather: state.weatherData.weather
+      forecastData: state.weatherData.weather
     }),
     dispatch => ({
       fetchHourlyWeatherByLocationTime: (latitude, longitude, timestamp) => {

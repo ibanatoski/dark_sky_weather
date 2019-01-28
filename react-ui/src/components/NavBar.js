@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import "css/NavBar.css";
 
@@ -24,8 +24,7 @@ class NavBar extends Component {
   }
 
   handleSearch = zipcode => {
-    console.log(zipcode);
-    if (zipcode) this.props.fetchWeatherByZipcode(zipcode);
+    if (zipcode) this.props.history.push(`/forecast?zipcode=${zipcode}`);
   };
 
   handleFindWeatherByIP = () => {
@@ -43,33 +42,28 @@ class NavBar extends Component {
   renderNavMenu = () => {
     return (
       <Menu
-        onClick={this.handleClick}
+        onClick={() => this.props.history.push(`/forecast`)}
         selectedKeys={[this.state.current]}
         mode="horizontal"
       >
         <Menu.Item key="mail">Forecast</Menu.Item>
-        <Menu.Item key="app">Past Forecast</Menu.Item>
-        <SubMenu
-          title={<span className="submenu-title-wrapper">Detailed Day</span>}
-        >
-          <MenuItemGroup title="Item 1">
-            <Menu.Item key="setting:1">Option 1</Menu.Item>
-            <Menu.Item key="setting:2">Option 2</Menu.Item>
-          </MenuItemGroup>
-          <MenuItemGroup title="Item 2">
-            <Menu.Item key="setting:3">Option 3</Menu.Item>
-            <Menu.Item key="setting:4">Option 4</Menu.Item>
-          </MenuItemGroup>
-        </SubMenu>
       </Menu>
     );
   };
 
   render() {
+    console.log("render Nav");
     return (
       <div className="nav-container">
         <div className="nav-section">
-          <span className="nav-title">Overcast</span>
+          <Link
+            className="nav-title"
+            to={{
+              pathname: "/"
+            }}
+          >
+            Overcast
+          </Link>
         </div>
 
         <div className="nav-section">

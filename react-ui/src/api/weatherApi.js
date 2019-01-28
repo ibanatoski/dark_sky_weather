@@ -27,3 +27,13 @@ export function fetchWeatherByLocTime(lat, lng, timestamp) {
     }
   }).then(response => response.json());
 }
+
+export function fetchLocationFromIP() {
+  return fetch(`/api/location/ip`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    }
+  }).then(response => response.json());
+}
