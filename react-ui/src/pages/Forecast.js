@@ -23,6 +23,7 @@ class Forecast extends Component {
   componentDidMount() {
     const parsed = queryString.parse(this.props.location.search);
     this.handleSearch(parsed.zipcode);
+    this.setState({ zipcode: parsed.zipcode });
   }
 
   componentDidUpdate(prevProps, prevState) {}
@@ -39,7 +40,7 @@ class Forecast extends Component {
         cover={<img alt="summary-svg" src={`./svgs/${current.icon}.svg`} />}
         actions={[
           <div className="card-action" style={{ display: "flex" }}>
-            Feels Like:<span>{current.apparentTemperature}F</span>
+            Feels Like:<span>{current.apparentTemperature + "°"}F</span>
           </div>,
           <div>
             UV Index: <span>{current.uvIndex}</span>
@@ -62,17 +63,18 @@ class Forecast extends Component {
 
           <div style={{ display: "flex", flexDirection: "column" }}>
             <span className="forecast-title">
-              {Math.round(current.temperature) + " " + current.summary}
+              {Math.round(current.temperature) + "°F" + " " + current.summary}
             </span>
             <div style={{ display: "flex", flexDirection: "row" }}>
               <div className="extra-detail">
-                Feels Like:<span>{current.apparentTemperature}F</span>
+                Feels Like:
+                <span>{Math.round(current.apparentTemperature) + "°"}F</span>
               </div>
               <div className="extra-detail">
                 High:<span>{current.uvIndex}</span>
               </div>
               <div className="extra-detail">
-                Low:<span>{current.windSpeed}mph</span>
+                Low:<span>{Math.round(current.windSpeed)}mph</span>
               </div>
             </div>
           </div>

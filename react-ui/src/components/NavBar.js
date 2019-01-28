@@ -47,8 +47,8 @@ class NavBar extends Component {
         selectedKeys={[this.state.current]}
         mode="horizontal"
       >
-        <Menu.Item key="mail">Week</Menu.Item>
-        <Menu.Item key="app">Hourly</Menu.Item>
+        <Menu.Item key="mail">Forecast</Menu.Item>
+        <Menu.Item key="app">Past Forecast</Menu.Item>
         <SubMenu
           title={<span className="submenu-title-wrapper">Detailed Day</span>}
         >

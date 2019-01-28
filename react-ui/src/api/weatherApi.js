@@ -17,3 +17,13 @@ export function fetchWeatherByIp() {
     }
   }).then(response => response.json());
 }
+
+export function fetchWeatherByLocTime(lat, lng, timestamp) {
+  return fetch(`/api/forecast/${lat}/${lng}/${timestamp}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    }
+  }).then(response => response.json());
+}

@@ -119,8 +119,25 @@ if (cluster.isMaster) {
     );
   });
 
+  app.get("/api/forecast/:lat/:lng/:timestamp", (req, res) => {
+    request(
+      `https://api.darksky.net/forecast/${process.env.DARK_SKY_API}/${
+        req.params.lat
+      },${req.params.lng}, ${
+        req.params.timestamp
+      }?exclude=currently,flags,minutely,daily,alerts`,
+      function(errror, response, body) {
+        if (error) {
+          next(error);
+        } else {
+          res.send(body);
+        }
+        console.log("------------------------------");
+      }
+    );
+  });
+
   app.get("/api/forecast/:lat/:lng", (req, res) => {
-    console.log();
     request(
       `https://api.darksky.net/forecast/${process.env.DARK_SKY_API}/${
         req.params.lat

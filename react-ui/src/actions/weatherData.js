@@ -8,6 +8,10 @@ export const FETCH_WEATHER_IP_REQUEST = "FETCH_WEATHER_IP_REQUEST";
 export const FETCH_WEATHER_IP_SUCCESS = "FETCH_WEATHER_IP_SUCCESS";
 export const FETCH_WEATHER_IP_FAILURE = "FETCH_WEATHER_IP_FAILURE";
 
+export const FETCH_WEATHER_LOC_TIME_REQUEST = "FETCH_WEATHER_LOC_TIME_REQUEST";
+export const FETCH_WEATHER_LOC_TIME_SUCCESS = "FETCH_WEATHER_LOC_TIME_SUCCESS";
+export const FETCH_WEATHER_LOC_TIME_FAILURE = "FETCH_WEATHER_LOC_TIME_FAILURE";
+
 //------------------------------------------------------------------------------------------------------------
 //
 //    Forecast By Zipcode
@@ -95,6 +99,50 @@ export function fetchWeatherByIp() {
       })
       .catch(error => {
         dispatch(fetchWeatherByIpFailure());
+      });
+  };
+}
+
+//------------------------------------------------------------------------------------------------------------
+//
+//    Fetch Weather by Location and Time
+//
+//------------------------------------------------------------------------------------------------------------
+function fetchWeatherByLocTimeRequest() {
+  return {
+    type: FETCH_WEATHER_IP_REQUEST
+  };
+}
+
+function fetchWeatherByLocTimeSuccess(json) {
+  console.log("fetchWeatherByLocTimeSuccess", json);
+  return {
+    type: FETCH_WEATHER_IP_SUCCESS,
+    weatherData: json.weatherData,
+    receivedAt: Date.now()
+  };
+}
+
+function fetchWeatherByLocTimeFailure() {
+  return {
+    type: FETCH_WEATHER_IP_FAILURE,
+    receivedAt: Date.now()
+  };
+}
+
+export function fetchHourlyWeatherByLocationTime(lat, lng, timestamp) {
+  return function(dispatch) {
+    dispatch(fetchWeatherByLocTimeRequest());
+
+    return WeatherApi.fetchWeatherByLocTime(lat, lng, timestamp)
+      .then(json => {
+        console.log("fetchHourlyWeatherByLocationTime", json);
+        return json
+          ? dispatch(fetchWeatherByLocTimeSuccess(json))
+          : dispatch(fetchWeatherByLocTimeFailure());
+      })
+      .catch(error => {
+        dispatch(fetchWeatherByLocTimeFailure());
       });
   };
 }
