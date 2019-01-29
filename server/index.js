@@ -95,18 +95,17 @@ if (cluster.isMaster) {
     );
   });
 
-  app.get("/api/forecast/zipcode/:zip", (req, res) => {
+  app.get("/api/forecast/zipcode/:zip", (req, res, next) => {
     request(
       `https://maps.googleapis.com/maps/api/geocode/json?address=${
         req.params.zip
       }&key=${process.env.GOOGLE_MAPS_API}`,
       function(error, response, body) {
-        if (error) {
+        var body = JSON.parse(body);
+        if (error || !body.results[0]) {
           next(error);
-        } else {
-          var body = JSON.parse(body);
+        } else if (body.results[0]) {
           res.locationData = body.results;
-
           var lat = body.results[0].geometry.location.lat;
           var lng = body.results[0].geometry.location.lng;
 

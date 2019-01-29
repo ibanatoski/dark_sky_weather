@@ -63,8 +63,13 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  padding: 0px 50px;
   width: 100%;
   flex-wrap: wrap; }
+
+.detail-card-stats.small {
+  flex-direction: column;
+  margin-bottom: 20px; }
 
 .extra-detail-card-desc {
   text-align: center;
@@ -76,4 +81,5 @@
   flex-direction: row;
   text-align: center;
   align-items: center;
+  justify-content: center;
   height: 100px; }

@@ -43,7 +43,7 @@ class DayCard extends Component {
   renderExtraDetail = data => {
     return (
       <div className="extra-detail-card">
-        <div className="detail-card-stats">
+        <div className={`detail-card-stats ${this.props.render}`}>
           <div
             className="detail-stat"
             style={{
