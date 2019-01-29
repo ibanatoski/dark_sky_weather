@@ -275,7 +275,7 @@ class Forecast extends Component {
               justifyContent: "center",
               alignItems: "center",
               marginTop: this.state.render == "" ? "0" : "30px",
-              marginLeft: "30px"
+              marginLeft: this.state.render == "" ? "30px" : "0px"
             }}
           >
             <Button onClick={() => this.props.fetchWeatherByIP()}>

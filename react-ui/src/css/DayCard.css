@@ -34,7 +34,8 @@
 
 .temperature-bar-container.small {
   height: 20px;
-  font-size: 10pt; }
+  font-size: 10pt;
+  display: none; }
 
 .temperature-low {
   display: flex;

@@ -162,6 +162,7 @@ class DayCard extends Component {
             >
               {Math.round(data.temperatureLow) + "°"}
             </span>
+
             <span
               className="temperature-bar"
               style={{
