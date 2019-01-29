@@ -14,7 +14,7 @@ import {
 } from "recharts";
 
 import { fetchHourlyWeatherByLocationTime } from "actions/weatherData";
-import { formatXAxisHours, formatTooltipTime } from "utils/formatDate.js";
+import { formatXAxisHours, formatTime } from "utils/formatDate.js";
 
 class DayCharts extends Component {
   state = {
@@ -44,7 +44,12 @@ class DayCharts extends Component {
               ) : null}
               <XAxis dataKey="time" tickFormatter={formatXAxisHours} />
               <YAxis />
-              <Tooltip formatter={str => str + "°F"} />
+              <Tooltip
+                labelFormatter={label =>
+                  "time: " + formatTime(new Date(parseInt(label) * 1000))
+                }
+                formatter={temp => Math.round(temp) + "°F"}
+              />
               <Area
                 type="monotone"
                 dataKey="temperature"
@@ -69,7 +74,12 @@ class DayCharts extends Component {
               ) : null}
               <XAxis dataKey="time" tickFormatter={formatXAxisHours} />
               <YAxis tickFormatter={str => str * 100 + "%"} />
-              <Tooltip formatter={str => Math.round(str * 100) + "%"} />
+              <Tooltip
+                labelFormatter={label =>
+                  "time: " + formatTime(new Date(parseInt(label) * 1000))
+                }
+                formatter={temp => Math.round(temp) + "%"}
+              />{" "}
               <Area
                 type="monotone"
                 dataKey="precipProbability"
@@ -94,7 +104,12 @@ class DayCharts extends Component {
               ) : null}
               <XAxis dataKey="time" tickFormatter={formatXAxisHours} />
               <YAxis />
-              <Tooltip formatter={str => str + "mph"} />
+              <Tooltip
+                labelFormatter={label =>
+                  "time: " + formatTime(new Date(parseInt(label) * 1000))
+                }
+                formatter={temp => Math.round(temp) + "mph"}
+              />{" "}
               <Area
                 type="monotone"
                 dataKey="windSpeed"
@@ -120,7 +135,12 @@ class DayCharts extends Component {
               ) : null}
               <XAxis dataKey="time" tickFormatter={formatXAxisHours} />
               <YAxis />
-              <Tooltip formatter={str => str + "miles"} />
+              <Tooltip
+                labelFormatter={label =>
+                  "time: " + formatTime(new Date(parseInt(label) * 1000))
+                }
+                formatter={vis => Math.round(vis) + " miles"}
+              />{" "}
               <Area
                 type="monotone"
                 dataKey="visibility"
@@ -146,7 +166,12 @@ class DayCharts extends Component {
               ) : null}
               <XAxis dataKey="time" tickFormatter={formatXAxisHours} />
               <YAxis />
-              <Tooltip formatter={str => str + ""} />
+              <Tooltip
+                labelFormatter={label =>
+                  "time: " + formatTime(new Date(parseInt(label) * 1000))
+                }
+                formatter={index => Math.round(index) + ""}
+              />{" "}
               <Area
                 type="monotone"
                 dataKey="uvIndex"
